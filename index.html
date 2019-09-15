@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Giphy Homework</title>
+</head>
+
+<body>
+    <button id="ai" data-person="Allen Iverson" data-still="Allen Iverson" data-animate="Allen Iverson">AI</button>
+    <button data-person="Kobe Bryant">KOBE</button>
+    <button data-person="michael Jordan">MJ</button>
+    <button data-person="Ray Allen">The Shooter</button>
+    <button data-person="Kevin hart">The Short Guy</button>
+    <button data-person="Yao Ming">The Tall Guy</button>
+    <button data-person="Michael Jackson">The Art Guy</button>
+    <button data-person="Lebron James">The still playing Guy</button>
+    <div id="gifs"></div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $("button").on("click", function () {
+            var person = $(this).attr("data-person");
+            var queryURL = `https://api.giphy.com/v1/gifs/search?q="${person}
+        &api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10`;
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            })
+                .then(response => {
+                    var results = response.data;
+
+                    for (let i = 0; i < results.length; i++) {
+                        const $gifsDiv = $('div');
+                        const $p = $('<p>');
+                        $p.text(results[i].rating)
+                        const $personimg = $('<img>');
+                        $personimg.attr("src", results[i].images.fixed_height.url);
+
+
+                        $gifsDiv.prepend($personimg);
+                        $gifsDiv.prepend($p);
+                        $('#gifs').prepend($gifsDiv);
+
+                        // $personimg.on('click', function () {
+                        //     $("#ai").addclass(stop);
+                        // })
+                    }
+                })
+
+
+        })
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
